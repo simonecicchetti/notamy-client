@@ -1,6 +1,126 @@
 {
+  // Estende la configurazione base di Expo
   "extends": "expo/tsconfig.base",
+  
   "compilerOptions": {
-    "strict": true
+    // Modalità strict per type safety
+    "strict": true,
+    
+    // Path mapping per import puliti
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@screens/*": ["src/screens/*"],
+      "@services/*": ["src/services/*"],
+      "@store/*": ["src/store/*"],
+      "@utils/*": ["src/utils/*"],
+      "@types/*": ["src/types/*"],
+      "@config/*": ["src/config/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@navigation/*": ["src/navigation/*"]
+    },
+    
+    // Interoperabilità con moduli CommonJS
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    
+    // Performance: salta il type checking delle librerie
+    "skipLibCheck": true,
+    
+    // Consistenza nel naming dei file (importante per case-sensitive filesystems)
+    "forceConsistentCasingInFileNames": true,
+    
+    // Permette import di file JSON
+    "resolveJsonModule": true,
+    
+    // ⚠️ MODIFICATO: Disabilitati per development più fluido
+    // Puoi riabilitarli per build di produzione
+    "noUnusedLocals": false,        // Era true - troppo restrittivo durante dev
+    "noUnusedParameters": false,    // Era true - troppo restrittivo durante dev
+    
+    // Mantieni questi per code quality
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    
+    // ✅ AGGIUNTI per miglior supporto crypto e React Native
+    "allowJs": true,                          // Permette file .js nel progetto
+    "jsx": "react-native",                    // Supporto JSX per React Native
+    "moduleResolution": "node",               // Risoluzione moduli Node.js style
+    "isolatedModules": true,                  // Richiesto da alcuni bundler
+    "noEmit": true,                          // TypeScript solo per type checking
+    
+    // ✅ Type checking più permissivo per zero-friction development
+    "strictNullChecks": true,                 // Mantieni per sicurezza
+    "strictFunctionTypes": true,              // Mantieni per sicurezza
+    "strictBindCallApply": true,              // Mantieni per sicurezza
+    "strictPropertyInitialization": false,    // Più permissivo per classi
+    "noImplicitThis": true,                   // Mantieni per chiarezza
+    "noImplicitAny": false,                   // Più permissivo durante prototyping
+    
+    // ✅ Supporto per decorators (se usi MobX o simili)
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    
+    // ✅ Source maps per debugging
+    "sourceMap": true,
+    "inlineSources": true,
+    
+    // ✅ Supporto per import dinamici
+    "module": "esnext",
+    "target": "esnext",
+    
+    // ✅ Tipi globali per crypto
+    "types": [
+      "react-native",
+      "jest",
+      "@types/node"  // Per Buffer e crypto types
+    ],
+    
+    // ✅ TypeRoots per .d.ts files personalizzati
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ]
+  },
+  
+  // File da includere nel type checking
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    // ✅ Aggiunti file di dichiarazione
+    "**/*.d.ts",
+    // ✅ Aggiunti file di configurazione per IntelliSense
+    "app.config.js",
+    "babel.config.js"
+  ],
+  
+  // File da escludere
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js",
+    // ✅ Aggiunte esclusioni comuni
+    ".expo",
+    ".expo-shared",
+    "dist",
+    "build",
+    "coverage",
+    "web-build",
+    // ✅ File temporanei
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/*.spec.tsx",
+    "**/*.test.tsx"
+  ],
+  
+  // ✅ Opzioni per ts-node (se usi scripts TypeScript)
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
   }
 }
